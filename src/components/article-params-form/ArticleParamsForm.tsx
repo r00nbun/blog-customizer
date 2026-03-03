@@ -20,6 +20,7 @@ import {
 
 import styles from './ArticleParamsForm.module.scss';
 import clsx from 'clsx';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 type ArticleParamsFormProps = {
 	articleState: ArticleStateType;
@@ -30,9 +31,15 @@ export const ArticleParamsForm = ({
 	articleState,
 	setArticleState,
 }: ArticleParamsFormProps) => {
-	const asideRef = useRef<HTMLElement | null>(null);
+	const asideRef = useRef<HTMLDivElement>(null);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formState, setFormState] = useState<ArticleStateType>(articleState);
+
+	useOutsideClickClose({
+		isOpen: isMenuOpen,
+		rootRef: asideRef,
+		onChange: setIsMenuOpen,
+	});
 
 	const toggleArrow = () => {
 		setIsMenuOpen((prev) => !prev);
